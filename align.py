@@ -46,7 +46,8 @@ def undistort_image(vignette_img, coefficients):
     matrix = np.array([[fx, 0, center_x+cx], [0, fy, center_y+cy], [0, 0, 1]])
     dist = np.array([k1, k2, p1, p2, k3])
     h, w = vignette_img.shape
-    # img_norm = cv2.normalize( np.array(img), None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    # img_norm = cv2.normalize( np.array(img), No
+    # ne, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
     # print(img_norm.max(), img_norm.min())
     newcameramtx, roi = cv2.getOptimalNewCameraMatrix(matrix, dist, (w,h), 1, (w,h))
     dst = cv2.undistort(np.array(vignette_img), matrix, dist, newcameramtx)
@@ -149,6 +150,7 @@ def pre_process_M3M(input_img,out_img,):
     et3 = time.time()
     print("time elapsed in step 2", et3-et2)
     cv2.imwrite(out_img, final_img)
+    # align_images()
     # command = f'"C:/exiftool(-k).exe" -GpsLatitude="{latitude}" -GpsLongitude="{longitude}" -AbsoluteAltitude="{altitude}" -FlightPitchDegree="{pitch}" -FlightRollDegree="{roll}" -FlightYawDegree="{yaw}" "{d_file_path}"'
     command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{input_img}" -r -all:all -xmp:all -File:ImageSize "{out_img}"'
     process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
@@ -174,29 +176,72 @@ def align_images(rgb_image_path, multispectral_image_path):
     aligned_rgb = cv2.warpPerspective(rgb_image, M, (multispectral_image.shape[1], multispectral_image.shape[0]))
     return aligned_rgb
 
+def resolution_clip(rgb, ms, outfolder):
+    rgb_image_orig = cv2.imread(rgb) 
+    rgbname = os.path.basename(rgb)
+    ms_images = [cv2.imread(m, cv2.IMREAD_UNCHANGED)  for m in ms]
+    scale_x = 0.0032765 / 0.0021991
+    scale_y = 0.0032861 / 0.0022119
+    for mpath, m in zip(ms, ms_images):
+        mname = os.path.basename(mpath)
+        ms_resized = cv2.resize(m, None, fx=scale_x, fy=scale_y)
+        cv2.imwrite(os.path.join(outfolder, mname), ms_resized)
+        command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, mname)}"'  
+        process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
+        process.communicate(input=b'\n')
+
+
+    small_height, small_width = ms_resized.shape[:2]
+    large_height, large_width = rgb_image_orig.shape[:2]
+    start_x = (large_width - small_width) // 2
+    start_y = (large_height - small_height) // 2
+    end_x = start_x + small_width
+    end_y = start_y + small_height
+    clipped_image = rgb_image_orig[start_y:end_y, start_x:end_x]
+    cv2.imwrite(os.path.join(outfolder, rgbname), clipped_image)
+    command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, rgbname)}"'  
+    process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
+    process.communicate(input=b'\n')
+    # anchor_position = 'center'
+    # offset_x = (rgb_image_orig.shape[1] - ms_resized.shape[1]) // 2 if anchor_position == 'center' else 0
+    # offset_y = (rgb_image_orig.shape[0] - ms_resized.shape[0]) // 2 if anchor_position == 'center' else 0
+
+    # # Create a mask for the smaller image
+    # mask = np.zeros_like(rgb_image)
+    # mask[offset_y:offset_y+ms_resized.shape[0], offset_x:offset_x+ms_resized.shape[1]] = ms_resized
+
+    # # Overlay the images
+    # output_image = cv2.addWeighted(rgb_image, 0.5, mask, 0.5, 0)
+
+    # # Display the result
+    # cv2.imwrite('Overlay.png', output_image)
+    # plt.imshow(output_image)
+
+
 
 def main(input_folder,output_folder):
     ms_photos = find_files(input_folder, [".tif"])
     rgb_photos = find_files(input_folder, [".jpg"])
     sorted_data = sorted(ms_photos, key=sort_key)
     grouped = [list(g) for _, g in groupby(sorted_data, key=lambda x: x.split('DJI_')[-1].split('_')[1])]
-
-    for x in grouped:
-        print(x)
-        # print()
-        pre_process_M3M(x[0],os.path.join(output_folder,'pre_processed_' + x[0].split('\\')[-1]))
-        # break
-        pre_process_M3M(x[1],os.path.join(output_folder,'pre_processed_' + x[1].split('\\')[-1]))
-        pre_process_M3M(x[2],os.path.join(output_folder,'pre_processed_' + x[2].split('\\')[-1]))
-        pre_process_M3M(x[3],os.path.join(output_folder,'pre_processed_' + x[3].split('\\')[-1]))
-        aligned_rgb_image = align_images(x[0][:-8] + 'D.JPG', 
-                                 os.path.join(output_folder,'pre_processed_' + x[0].split('\\')[-1]))
-        cv2.imwrite(os.path.join(output_folder,'pre_processed_' + os.path.basename(x[0][:-8] + 'D.JPG')), aligned_rgb_image)
-        out_img = os.path.join(output_folder,'pre_processed_' + os.path.basename(x[0][:-8] + 'D.JPG'))
-        input_img = x[0][:-8] + 'D.JPG'
-        command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{input_img}" -r -all:all -xmp:all -File:ImageSize "{out_img}"'
-        process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
-        process.communicate(input=b'\n')
+    for i in range(len(grouped)):
+        resolution_clip(rgb_photos[i], grouped[i], output_folder)
+    # for x grouped:
+        # print(x)
+        # # print()
+        # pre_process_M3M(x[0],os.path.join(output_folder,'pre_processed_' + x[0].split('\\')[-1]))
+        # # break
+        # pre_process_M3M(x[1],os.path.join(output_folder,'pre_processed_' + x[1].split('\\')[-1]))
+        # pre_process_M3M(x[2],os.path.join(output_folder,'pre_processed_' + x[2].split('\\')[-1]))
+        # pre_process_M3M(x[3],os.path.join(output_folder,'pre_processed_' + x[3].split('\\')[-1]))
+        # aligned_rgb_image = align_images(x[0][:-8] + 'D.JPG', 
+        #                          os.path.join(output_folder,'pre_processed_' + x[0].split('\\')[-1]))
+        # cv2.imwrite(os.path.join(output_folder,'pre_processed_' + os.path.basename(x[0][:-8] + 'D.JPG')), aligned_rgb_image)
+        # out_img = os.path.join(output_folder,'pre_processed_' + os.path.basename(x[0][:-8] + 'D.JPG'))
+        # input_img = x[0][:-8] + 'D.JPG'
+        # command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{input_img}" -r -all:all -xmp:all -File:ImageSize "{out_img}"'
+        # process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
+        # process.communicate(input=b'\n')
 
 
 if __name__ == '__main__':
