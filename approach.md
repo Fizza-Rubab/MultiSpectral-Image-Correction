@@ -1,3 +1,12 @@
+## Approach 1
+Do preprocessing on raw images
+1. Bring RGB and MS to same resolution
+2. Clip extra region of RGB to MS size
+3. Copy all GPS and xmp data from RGB image to the resized MS images
+4. Now construct orthomosaic
+
+## Approach 2
+Do post processing on orthomosaics
 1. Get MS and RGB orthomosaic
 2. Split with larger MS size and smaller RGB size
 3. Keep significant overlap
