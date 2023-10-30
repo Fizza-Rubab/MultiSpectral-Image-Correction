@@ -30,7 +30,16 @@ def resolution_clip(rgb, ms, outfolder):
         mname = os.path.basename(mpath)
         ms_resized = cv2.resize(m, None, fx=scale_x, fy=scale_y)
         cv2.imwrite(os.path.join(outfolder, mname), ms_resized)
-        command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -SensorIndex -BandFreq -BandName -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, mname)}"'  
+
+        with tifffile.TiffFile(mpath) as tif:
+            tif_tags = {}
+            tif_tags['XMP'] = tif.pages[0].tags[700].value.decode('utf-8')
+            s = open("meta.xml", 'w', encoding='utf-8')
+            s.write(tif_tags['XMP'])
+        command0 = f'"C:/exiftool(-k).exe" "-xmp<=C:/Users/User/Desktop/Fizza/MultiSpectral-Image-Correction/meta.xml" "{os.path.join(outfolder, mname)}"'
+        process = subprocess.Popen(command0, shell=True, stdin=subprocess.PIPE)
+        process.communicate(input=b'\n')
+        command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, mname)}"'  
         process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
         process.communicate(input=b'\n')
 
