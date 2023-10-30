@@ -8,7 +8,6 @@ import os
 from itertools import groupby
 import subprocess
 
-
 def find_files(folder, types):
     return [entry.path for entry in os.scandir(folder) if(entry.is_file() and os.path.splitext(entry.name)[1].lower() in types)]
 
@@ -31,7 +30,7 @@ def resolution_clip(rgb, ms, outfolder):
         mname = os.path.basename(mpath)
         ms_resized = cv2.resize(m, None, fx=scale_x, fy=scale_y)
         cv2.imwrite(os.path.join(outfolder, mname), ms_resized)
-        command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, mname)}"'  
+        command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -SensorIndex -BandFreq -BandName -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, mname)}"'  
         process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
         process.communicate(input=b'\n')
 
@@ -43,3 +42,9 @@ def main(input_folder,output_folder):
     grouped = [list(g) for _, g in groupby(sorted_data, key=lambda x: x.split('DJI_')[-1].split('_')[1])]
     for i in range(len(grouped)):
         resolution_clip(rgb_photos[i], grouped[i], output_folder)
+
+
+if __name__ == '__main__':
+    input_folder = r"C:\Users\User\Desktop\Fizza\MultiSpectral-Image-Correction\set"
+    output_folder = r"C:\Users\User\Desktop\Fizza\MultiSpectral-Image-Correction\outputset"
+    main(input_folder,output_folder)
