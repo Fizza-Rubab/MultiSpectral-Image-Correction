@@ -18,3 +18,9 @@ Use Metashape for alignment
 1. Import photos from each band into separate chunks
 2. Align Photos in each chunk
 3. Align all chunks
+4. For each band
+    1. Create dense point cloud
+    2. Create DEM
+    3. build orthomosaic
+    4. export orthomosaic
+5. View on global mapper to verify alignment
