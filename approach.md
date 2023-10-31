@@ -12,3 +12,9 @@ Do post processing on orthomosaics
 3. Keep significant overlap
 4. Shift each image with alignment
 5. MS will adjust because larger in size
+
+## Apporach 3
+Use Metashape for alignment
+1. Import photos from each band into separate chunks
+2. Align Photos in each chunk
+3. Align all chunks
