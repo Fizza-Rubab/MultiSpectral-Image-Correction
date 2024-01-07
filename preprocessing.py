@@ -29,19 +29,33 @@ def resolution_clip(rgb, ms, outfolder):
     for mpath, m in zip(ms, ms_images):
         mname = os.path.basename(mpath)
         ms_resized = cv2.resize(m, None, fx=scale_x, fy=scale_y)
-        cv2.imwrite(os.path.join(outfolder, mname), ms_resized)
-
+        cv2.imwrite(os.path.join(outfolder, mname), m)
         with tifffile.TiffFile(mpath) as tif:
             tif_tags = {}
             tif_tags['XMP'] = tif.pages[0].tags[700].value.decode('utf-8')
             s = open("meta.xml", 'w', encoding='utf-8')
             s.write(tif_tags['XMP'])
-        command0 = f'"C:/exiftool(-k).exe" "-xmp<=C:/Users/User/Desktop/Fizza/MultiSpectral-Image-Correction/meta.xml" "{os.path.join(outfolder, mname)}"'
+        # command0 = f'"C:/exiftool(-k).exe" "-xmp<=C:/Users/User/Desktop/Fizza/MultiSpectral-Image-Correction/meta.xml" "{os.path.join(outfolder, mname)}"'
+        command0 = f'"C:/exiftool(-k).exe" -tagsfromfile "{mpath}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude  -GpsLongitude -AbsoluteAltitude -FlightPitchDegree -FlightRollDegree -FlightYawDegree -xmp:all  "{os.path.join(outfolder, mname)}"'
         process = subprocess.Popen(command0, shell=True, stdin=subprocess.PIPE)
         process.communicate(input=b'\n')
-        command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, mname)}"'  
-        process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
-        process.communicate(input=b'\n')
+        # command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude  -GpsLongitude -AbsoluteAltitude -FlightPitchDegree -FlightRollDegree -FlightYawDegree  "{os.path.join(outfolder, mname)}"'  
+        # # command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -all:all -xmp:all "{os.path.join(outfolder, mname)}"'  
+        # process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
+        # process.communicate(input=b'\n')
+    
+    small_height, small_width = ms_resized.shape[:2]
+    large_height, large_width = rgb_image_orig.shape[:2]
+    start_x = (large_width - small_width) // 2
+    start_y = (large_height - small_height) // 2
+    end_x = start_x + small_width
+    end_y = start_y + small_height
+    clipped_image = rgb_image_orig[start_y:end_y, start_x:end_x]
+    cv2.imwrite(os.path.join(outfolder, rgbname), clipped_image)
+    command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -xmp:all "{os.path.join(outfolder, rgbname)}"'  
+    process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
+    process.communicate(input=b'\n')
+    print(f"Added {os.path.join(outfolder, rgbname)}")
 
 
 def main(input_folder,output_folder):

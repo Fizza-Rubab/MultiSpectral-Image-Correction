@@ -11,35 +11,35 @@
     xmlns:drone-dji="http://www.dji.com/drone-dji/1.0/"
     xmlns:GPano="http://ns.google.com/photos/1.0/panorama/"
     xmlns:Camera="http://pix4d.com/camera/1.0"
-   xmp:ModifyDate="2023-10-15T13:33:39+05:00"
-   xmp:CreateDate="2023-10-15T13:33:39+05:00"
+   xmp:ModifyDate="2023-10-15T13:33:10+05:00"
+   xmp:CreateDate="2023-10-15T13:33:10+05:00"
    tiff:Make="DJI"
    tiff:Model="M3M"
    dc:format="image/TIF"
    drone-dji:Version="1.6"
-   drone-dji:ImageSource="MS_NIR_CAMERA"
+   drone-dji:ImageSource="MS_RE_CAMERA"
    drone-dji:GpsStatus="RTK"
    drone-dji:AltitudeType="RtkAlt"
-   drone-dji:GpsLatitude="+24.777581076"
-   drone-dji:GpsLongitude="+67.888587159"
-   drone-dji:AbsoluteAltitude="+8.512"
-   drone-dji:RelativeAltitude="+39.938"
+   drone-dji:GpsLatitude="+24.777353742"
+   drone-dji:GpsLongitude="+67.888083727"
+   drone-dji:AbsoluteAltitude="+8.918"
+   drone-dji:RelativeAltitude="+40.068"
    drone-dji:GimbalRollDegree="+0.00"
-   drone-dji:GimbalYawDegree="-130.50"
+   drone-dji:GimbalYawDegree="+49.10"
    drone-dji:GimbalPitchDegree="-89.90"
-   drone-dji:FlightRollDegree="+4.40"
-   drone-dji:FlightYawDegree="-131.00"
-   drone-dji:FlightPitchDegree="-13.20"
-   drone-dji:FlightXSpeed="-2.6"
-   drone-dji:FlightYSpeed="-3.0"
+   drone-dji:FlightRollDegree="-2.40"
+   drone-dji:FlightYawDegree="+49.00"
+   drone-dji:FlightPitchDegree="+8.40"
+   drone-dji:FlightXSpeed="2.6"
+   drone-dji:FlightYSpeed="3.0"
    drone-dji:FlightZSpeed="0.0"
    drone-dji:CamReverse="0"
    drone-dji:GimbalReverse="0"
    drone-dji:SelfData=""
    drone-dji:RtkFlag="16"
-   drone-dji:RtkStdLon="1.99388"
-   drone-dji:RtkStdLat="1.68517"
-   drone-dji:RtkStdHgt="6.51746"
+   drone-dji:RtkStdLon="2.03210"
+   drone-dji:RtkStdLat="1.65336"
+   drone-dji:RtkStdHgt="6.40558"
    drone-dji:RtkDiffAge="0.00000"
    drone-dji:SurveyingMode="1"
    drone-dji:DewarpFlag="0"
@@ -47,78 +47,78 @@
    drone-dji:CalibratedFocalLength="2170.000000"
    drone-dji:CalibratedOpticalCenterX="1296.000000"
    drone-dji:CalibratedOpticalCenterY="972.000000"
-   drone-dji:UTCAtExposure="2023-10-15T08:33:58.826377"
+   drone-dji:UTCAtExposure="2023-10-15T08:33:29.762429"
    drone-dji:ShutterType="Electronic"
-   drone-dji:CameraSerialNumber="5J4O3AIRBBM17D"
+   drone-dji:CameraSerialNumber="5J3O3AREBBM1Q8"
    drone-dji:DroneModel="M3M"
    drone-dji:DroneSerialNumber="1581F5FKD232800DPF96"
-   drone-dji:CaptureUUID="baea76e5cc034f699b72519915e28962"
-   drone-dji:RelativeOpticalCenterX="0.000000"
-   drone-dji:RelativeOpticalCenterY="0.000000"
+   drone-dji:CaptureUUID="7f381e7b196e4e7b8ee7d44b0cc0c14b"
+   drone-dji:RelativeOpticalCenterX="-16.229980"
+   drone-dji:RelativeOpticalCenterY="-2.242981"
    drone-dji:DewarpHMatrix="1.716200,0.000000,415.752014,0.000000,1.716200,309.813995,0.000000,0.000000,1.000000"
    drone-dji:VignettingFlag="0"
-   drone-dji:VignettingData="0.000055857, 8.905021e-07, -2.614142e-09, 4.913465e-12, -3.998805e-15, 1.196418e-18"
+   drone-dji:VignettingData="-0.000109339, 1.737881e-06, -5.057110e-09, 8.497724e-12, -6.353070e-15, 1.789078e-18"
    drone-dji:LS_type="1"
    drone-dji:LS_status="2"
-   drone-dji:Package_idx="116"
+   drone-dji:Package_idx="44"
    drone-dji:Cfg_cnt="1"
-   drone-dji:RawData="11581.000 10058.000 12296.000 11088.000"
-   drone-dji:BandName="NIR"
-   drone-dji:BandFreq="860(+/-26)nm"
-   drone-dji:Irradiance="10182.119"
-   drone-dji:SensorGain="1.016"
-   drone-dji:ExposureTime="1953"
-   drone-dji:SensorGainAdjustment="1.045462"
-   drone-dji:SensorIndex="4"
+   drone-dji:RawData="13363.000 11654.000 14167.000 12730.000"
+   drone-dji:BandName="RedEdge"
+   drone-dji:BandFreq="730(+/-16)nm"
+   drone-dji:Irradiance="9363.242"
+   drone-dji:SensorGain="1.000"
+   drone-dji:ExposureTime="1870"
+   drone-dji:SensorGainAdjustment="0.803882"
+   drone-dji:SensorIndex="3"
    drone-dji:DroneID="1581F5FKD232800DPF96"
    crs:Version="7.0"
    crs:HasSettings="False"
    crs:HasCrop="False"
    crs:AlreadyApplied="False">
    <Camera:RigName>M3M</Camera:RigName>
-   <Camera:RigCameraIndex>4</Camera:RigCameraIndex>
-   <Camera:BandName>NIR</Camera:BandName>
-   <Camera:CentralWavelength>860</Camera:CentralWavelength>
-   <Camera:WavelengthFWHM>26</Camera:WavelengthFWHM>
+   <Camera:RigCameraIndex>3</Camera:RigCameraIndex>
+   <Camera:BandName>RedEdge</Camera:BandName>
+   <Camera:CentralWavelength>730</Camera:CentralWavelength>
+   <Camera:WavelengthFWHM>16</Camera:WavelengthFWHM>
    <Camera:ModelType>perspective</Camera:ModelType>
-   <Camera:PrincipalPoint>2.604060,1.917194</Camera:PrincipalPoint>
+   <Camera:PrincipalPoint>2.571600,1.912708</Camera:PrincipalPoint>
    <Camera:PerspectiveFocalLength>4.340000</Camera:PerspectiveFocalLength>
    <Camera:PerspectiveFocalLengthUnits>mm</Camera:PerspectiveFocalLengthUnits>
    <Camera:PerspectiveDistortion>
     <rdf:Seq>
-     <rdf:li>0.006683</rdf:li>
-     <rdf:li>-0.044266</rdf:li>
+     <rdf:li>0.005356</rdf:li>
+     <rdf:li>-0.045345</rdf:li>
      <rdf:li>0.000000</rdf:li>
-     <rdf:li>-0.000215</rdf:li>
-     <rdf:li>-0.000809</rdf:li>
+     <rdf:li>-0.001015</rdf:li>
+     <rdf:li>-0.000906</rdf:li>
     </rdf:Seq>
    </Camera:PerspectiveDistortion>
    <Camera:BlackCurrent>3200</Camera:BlackCurrent>
-   <Camera:SunSensor>10088.639</Camera:SunSensor>
+   <Camera:SunSensor>10509.442</Camera:SunSensor>
    <Camera:SunSensorExposureTime>0.182</Camera:SunSensorExposureTime>
    <Camera:VignettingPolynomial>
     <rdf:Seq>
-     <rdf:li>5.585734e-05</rdf:li>
-     <rdf:li>8.905021e-07</rdf:li>
-     <rdf:li>-2.614142e-09</rdf:li>
-     <rdf:li>4.913465e-12</rdf:li>
-     <rdf:li>-3.998805e-15</rdf:li>
-     <rdf:li>1.196418e-18</rdf:li>
+     <rdf:li>-1.093388e-04</rdf:li>
+     <rdf:li>1.737881e-06</rdf:li>
+     <rdf:li>-5.057110e-09</rdf:li>
+     <rdf:li>8.497724e-12</rdf:li>
+     <rdf:li>-6.353070e-15</rdf:li>
+     <rdf:li>1.789078e-18</rdf:li>
     </rdf:Seq>
    </Camera:VignettingPolynomial>
    <Camera:VignettingCenter>
     <rdf:Seq>
-     <rdf:li>1326.958252</rdf:li>
-     <rdf:li>921.184753</rdf:li>
+     <rdf:li>1279.604736</rdf:li>
+     <rdf:li>906.931580</rdf:li>
     </rdf:Seq>
    </Camera:VignettingCenter>
    <Camera:IsNormalized>0</Camera:IsNormalized>
    <Camera:IrradianceExposureTime>0.182000</Camera:IrradianceExposureTime>
    <Camera:IrradianceGain>64.000000</Camera:IrradianceGain>
-   <Camera:Irradiance>10182.119141</Camera:Irradiance>
-   <Camera:SunSensorYaw>-131.000000</Camera:SunSensorYaw>
-   <Camera:SunSensorPitch>-3.200000</Camera:SunSensorPitch>
-   <Camera:SunSensorRoll>4.400000</Camera:SunSensorRoll>
+   <Camera:Irradiance>9363.242188</Camera:Irradiance>
+   <Camera:SunSensorYaw>49.000000</Camera:SunSensorYaw>
+   <Camera:SunSensorPitch>18.400000</Camera:SunSensorPitch>
+   <Camera:SunSensorRoll>-2.400000</Camera:SunSensorRoll>
   </rdf:Description>
  </rdf:RDF>
 </x:xmpmeta>
@@ -151,5 +151,5 @@
                                                                                                     
                                                                                                     
                                                                                                     
-                                                                                                
+                                                                                             
 <?xpacket end="w"?>

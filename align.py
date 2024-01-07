@@ -202,6 +202,7 @@ def resolution_clip(rgb, ms, outfolder):
     command1 = f'"C:/exiftool(-k).exe" -tagsfromfile "{rgb}" -r -GPSPosition -GPSLongitude -GPSLatitude -GPSAltitude -FocalLength -FieldOfView -xmp:all "{os.path.join(outfolder, rgbname)}"'  
     process = subprocess.Popen(command1, shell=True, stdin=subprocess.PIPE)
     process.communicate(input=b'\n')
+    print(f"Added {os.path.join(outfolder, rgbname)}")
     # anchor_position = 'center'
     # offset_x = (rgb_image_orig.shape[1] - ms_resized.shape[1]) // 2 if anchor_position == 'center' else 0
     # offset_y = (rgb_image_orig.shape[0] - ms_resized.shape[0]) // 2 if anchor_position == 'center' else 0
@@ -218,6 +219,69 @@ def resolution_clip(rgb, ms, outfolder):
     # plt.imshow(output_image)
 
 
+# import cv2
+# import numpy as np
+# import matplotlib.pyplot as plt
+# def align_images(im1, im2):
+#     # Convert images to grayscale
+#     im1_gray = cv2.cvtColor(im1, cv2.COLOR_BGR2GRAY)
+#     im2_gray = cv2.cvtColor(im2, cv2.COLOR_BGR2GRAY)
+#     # Detect ORB keypoints and descriptors in the images
+#     orb = cv2.ORB_create()
+#     keypoints1, descriptors1 = orb.detectAndCompute(im1_gray, None)
+#     keypoints2, descriptors2 = orb.detectAndCompute(im2_gray, None)
+#     # Use the BFMatcher to find the best matches between the descriptors
+#     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+#     matches = bf.match(descriptors1, descriptors2)
+#     # Sort matches by distance
+#     matches = sorted(matches, key=lambda x: x.distance)
+#     # Extract location of good matches
+#     points1 = np.zeros((len(matches), 2), dtype=np.float32)
+#     points2 = np.zeros((len(matches), 2), dtype=np.float32)
+#     for i, match in enumerate(matches):
+#         points1[i, :] = keypoints1[match.queryIdx].pt
+#         points2[i, :] = keypoints2[match.trainIdx].pt
+#     # Find the homography transformation
+#     h, mask = cv2.findHomography(points2, points1, cv2.RANSAC)
+#     # Use the homography to warp the second image to align with the first
+#     height, width, channels = im1.shape
+#     im2_aligned = cv2.warpPerspective(im2, h, (width, height))
+#     return im2_aligned
+# # Load the images
+# reference_image = cv2.imread(r"C:\Users\User\Desktop\imagery alignment\RGB_img.JPG")
+# image_to_align = cv2.imread(r"C:\Users\User\Desktop\imagery alignment\MS_img.JPG")
+# # Align the images
+# aligned_image = align_images(reference_image, image_to_align)
+# # Save the aligned image
+# cv2.imwrite(r"C:\Users\User\Desktop\imagery alignment\aligned_img_new.JPG", aligned_image)
+# img1 = r"C:\Users\User\Desktop\imagery alignment\RGB_img.jpg"
+# img_shifted = r"C:\Users\User\Desktop\imagery alignment\MS_img.JPG"
+# img2 = r"C:\Users\User\Desktop\imagery alignment\aligned_img_new.jpg"
+# # Convert BGR to RGB for displaying using matplotlib
+# image1 = cv2.cvtColor(cv2.imread(img1, cv2.IMREAD_UNCHANGED), cv2.COLOR_BGR2RGB)
+# image_shifted = cv2.cvtColor(cv2.imread(img_shifted, cv2.IMREAD_UNCHANGED), cv2.COLOR_BGR2RGB)
+# image2 = cv2.cvtColor(cv2.imread(img2, cv2.IMREAD_UNCHANGED), cv2.COLOR_BGR2RGB)
+# # Create a figure and a 2x2 subplot grid
+# plt.figure(figsize=(10, 10))
+# # First row, first subplot: img1
+# plt.subplot(2, 2, 1)
+# plt.imshow(image1)
+# plt.title("Image1")
+# # First row, second subplot: img2
+# plt.subplot(2, 2, 2)
+# plt.imshow(image_shifted)
+# plt.title("Image2")
+# # Second row, first subplot: img1 + img_shifted
+# plt.subplot(2, 2, 3)
+# plt.imshow(cv2.addWeighted(image1, 0.5, image_shifted, 0.5, 0))
+# plt.title("Image1 + Shifted")
+# # Second row, second subplot: img1 + img2
+# plt.subplot(2, 2, 4)
+# plt.imshow(cv2.addWeighted(image1, 0.5, image2, 0.5, 0))
+# plt.title("Image1 + Aligned")
+# # Display the plots
+# plt.tight_layout()
+# plt.show()
 
 def main(input_folder,output_folder):
     ms_photos = find_files(input_folder, [".tif"])
